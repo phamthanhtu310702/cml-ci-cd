@@ -30,7 +30,7 @@ jobs:
         env:
           REPO_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          dvc push
+          dvc push -r mybucket
           dvc metrics show >> report.md
 
           cml comment create report.md
