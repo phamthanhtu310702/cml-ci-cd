@@ -1,5 +1,12 @@
 name: CML & DVC
-on: [push]
+on: 
+  push: 
+      branches:
+      - experiment2
+      paths:
+        - train.py
+        - data/*
+        - .github/workflows/cml.yaml
 jobs:
   train-and-report:
     runs-on: ubuntu-latest
@@ -23,6 +30,11 @@ jobs:
         env:
           REPO_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
+          dvc remote modify --local mybucket \
+                    access_key_id ${{ secrets.AWS_ACCESS_KEY_ID }}
+          dvc remote modify --local mybucket \
+                    secret_access_key ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          dvc push -r mybucket
           dvc metrics show >> report.md
 
           cml comment create report.md
