@@ -4,6 +4,8 @@ import matplotlib.pyplot as plt
 import json
 import os
 import numpy as np
+from dvclive import Live
+import pickle
 
 # Read in data
 X_train = np.genfromtxt("data/train_features.csv")
@@ -12,17 +14,22 @@ X_test = np.genfromtxt("data/test_features.csv")
 y_test = np.genfromtxt("data/test_labels.csv")
 
 # Fit a model
-depth = 5
-clf = RandomForestClassifier(max_depth=depth)
-clf.fit(X_train, y_train)
+with Live() as live:
+    depth = 5
+    clf = RandomForestClassifier(max_depth=depth)
+    clf.fit(X_train, y_train)
 
-acc = clf.score(X_test, y_test)
-print(acc)
-with open("metrics.txt", "w") as outfile:
-    outfile.write("Accuracy: " + str(acc) + "\n")
+    acc = clf.score(X_test, y_test)
+    print(acc)
+    with open("metrics.txt", "w") as outfile:
+        outfile.write("Accuracy: " + str(acc) + "\n")
 
-# Plot it
-disp = ConfusionMatrixDisplay.from_estimator(
-    clf, X_test, y_test, normalize="true", cmap=plt.cm.Blues
-)
-plt.savefig("plot.png")
+    with open('saved_model/model.pkl','wb') as f:
+        pickle.dump(clf,f)
+    # Plot it
+    disp = ConfusionMatrixDisplay.from_estimator(
+        clf, X_test, y_test, normalize="true", cmap=plt.cm.Blues
+    )
+    plt.savefig("plot.png")
+    live.log_metric('acc',acc)
+    live.log_artifact('saved_model/model.pkl', type="model", name="scklearn-model")
