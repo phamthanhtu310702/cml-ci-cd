@@ -2,3 +2,4 @@ setuptools
 scikit-learn
 matplotlib
 dvclive
+dvc[s3]
