@@ -30,5 +30,5 @@ stages:
       size: 16
     - path: plot.png
       hash: md5
-      md5: 943f196cffafb735e0818eaa7b230fb5
-      size: 16982
+      md5: 5020f05bfeda7c8c74427843bc2c110e
+      size: 17171
