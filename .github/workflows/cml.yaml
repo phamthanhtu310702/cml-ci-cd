@@ -42,5 +42,5 @@ jobs:
         uses: stefanzweifel/git-auto-commit-action@v4
         with:
           commit_message: Commit changes in dvc.lock
-          branch: dvc-pipeline
+          branch: experiment2
           file_pattern: dvc.lock saved_model/ dvclive/
