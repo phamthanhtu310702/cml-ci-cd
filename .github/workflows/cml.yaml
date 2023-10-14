@@ -1,5 +1,12 @@
 name: CML & DVC
-on: [push]
+on: 
+  push: 
+      branches:
+      - experiment2
+      paths:
+        - train.py
+        - data/*
+        - .github/workflows/cml.yaml
 jobs:
   train-and-report:
     runs-on: ubuntu-latest
@@ -23,6 +30,7 @@ jobs:
         env:
           REPO_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
+          dvc push
           dvc metrics show >> report.md
 
           cml comment create report.md
