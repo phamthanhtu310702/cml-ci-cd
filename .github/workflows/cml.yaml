@@ -23,6 +23,6 @@ jobs:
         env:
           REPO_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          dvc metrics diff master --show-md >> report.md
+          dvc metrics show >> report.md
 
           cml comment create report.md
